@@ -4,12 +4,14 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
-    use HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, Notifiable;
 
     /**
      * The attributes that are mass assignable.
@@ -17,6 +19,9 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
+        "name",
+        "first_name",
+        "last_name",
         "username",
         "email",
         "user_password",
@@ -25,8 +30,6 @@ class User extends Authenticatable
         "mobile_no",
         "user_status",
         "role_id",
-        "first_name",
-        "last_name",
         "occupation",
         "education",
         "country",
@@ -38,6 +41,8 @@ class User extends Authenticatable
         "total_credits",
 
     ];
+
+
 
     /**
      * The attributes that should be hidden for serialization.
@@ -59,16 +64,21 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'user_password' => 'hashed',
+            //"user_password"=>"",
         ];
     }
 
     // User belong to Many Roles
-    public function roles() {
-        return $this->belongsToMany(Role::class);
+    public function roles() : BelongsToMany
+    {
+        return $this->belongsToMany(Role::class, 'user_role');
     }
 
 
     public function hasRole($role) {
         return $this->roles()->where('name', $role)->exists();
     }
+
+
 }

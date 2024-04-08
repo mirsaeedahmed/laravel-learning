@@ -28,19 +28,19 @@ class UserFactory extends Factory
     {
 
         return [
-            "username"	=>	fake()->userName(),
-            "email"	=>	fake()->email()->unique()->safeEmail(),
+            "username"	=>	fake()->userName,
+            "email"	=>	fake()->unique()->email(),
             "user_password"	=>	static::$password ??= Hash::make('user1234'),
             "mobile_no"	=>	fake()->phoneNumber(),
-            "role_id"	=>	999999999,
+            //"role_id"	=>	999999999,
             "first_name"	=>	fake()->firstName(),
             "last_name"	=>	fake()->lastName(),
             "occupation"	=>	fake()->jobTitle(),
-            "education"	=>	fake()->randomElements(['bs','ms',"phd"]),
+            "education"	=>	fake()->randomElement(['bs','ms',"phd"]),
             "country"	=>	fake()->country(),
-            "city"	=>	fake()->city(),
-            "area"	=>	fake()->address(),
-            "sex"	=>	fake()->randomElements(['male', 'female']),
+            "city"	=>	fake()->city,
+            "area"	=>	fake()->streetAddress,
+            "sex"	=>	fake()->randomElement(["Male","Female"]),
             "dob"	=>	fake()->date()
         ];
     }
